@@ -15,7 +15,7 @@ export default function ProjectForm() {
             description: event.target.elements.description.value,
         }
         try {
-            await createProject(data)
+            await createProject(data);
         } catch (e) {
             console.log(e)
         }

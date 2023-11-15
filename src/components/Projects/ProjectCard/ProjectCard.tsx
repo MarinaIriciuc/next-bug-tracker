@@ -1,6 +1,6 @@
 import DeleteCardButton from "@/components/Projects/ProjectCard/DeleteCardButton";
 
-export default function ProjectCard({id}: { id: any }) {
+export default function ProjectCard({project}: { project: any }) {
     return (
         <>
             <div className="project-card">
@@ -9,12 +9,12 @@ export default function ProjectCard({id}: { id: any }) {
                          className="rounded-t-xl" alt=""/>
                 </div>
                 <div className="card-body p-5 bg-gray-800">
-                    <p className="font-extrabold text-[18px] tracking-wide">marina</p>
+                    <p className="font-extrabold text-[18px] tracking-wide">{project.name}</p>
                 </div>
                 <div className="card-footer bg-gray-800 rounded-b-xl pb-5 ps-5 pe-5 flex justify-between">
                     <p className="text-card">marina.vercel</p>
                     <p className="text-card text-green-400 font-semibold">25 %</p>
-                    <DeleteCardButton projectId={id}/>
+                    <DeleteCardButton projectId={project.id}/>
                 </div>
             </div>
         </>

@@ -7,6 +7,7 @@ import Logo from "@/components/Logo";
 // import ThemeSwitcher from "@/components/ThemeSwitcher";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
+import {ThemeSwitcher} from "@/components/ThemeSwitcher";
 
 export default function Sidebar({open}: { open: boolean }) {
 
@@ -36,8 +37,8 @@ export default function Sidebar({open}: { open: boolean }) {
                     <AiOutlineBug size={21} className={activeIcon === "bugs" ? "text-primary-gray" : ""}/><p
                     className={activeIcon === "bugs" ? "text-primary-gray sidebar-title" : "sidebar-title"}>Bugs</p>
                 </Link>
+                <ThemeSwitcher/>
                 <LogoutButton/>
-                {/*<ThemeSwitcher/>*/}
             </div>
         </>
     )

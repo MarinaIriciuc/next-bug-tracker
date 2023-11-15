@@ -3,6 +3,8 @@ import {Inter} from 'next/font/google'
 import '../globals.css'
 import {NextAuthProvider} from "@/app/session-provider";
 import Header from "@/components/Header/Header";
+import {ThemeProvider} from "@/components/theme-provider";
+import React from "react";
 
 
 const inter = Inter({subsets: ['latin']})
@@ -19,17 +21,21 @@ export default function RootLayout({children,}: {
 
     return (
 
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
         <NextAuthProvider>
             <>
-                <Header/>
-                <div className="container-fluid px-[200px] mt-10">
-                    {children}
-                </div>
-                {/*<div className="container-fluid">*/}
-                {/*    {children}*/}
-                {/*</div>*/}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Header/>
+                    <div className="container-fluid px-[200px] mt-10">
+                        {children}
+                    </div>
+                </ThemeProvider>
             </>
         </NextAuthProvider>
         </body>

@@ -23,9 +23,6 @@ export default function RootLayout({children,}: {
         <NextAuthProvider>
             <>
                 {children}
-                {/*<div className="container-fluid">*/}
-                {/*    {children}*/}
-                {/*</div>*/}
             </>
         </NextAuthProvider>
         </body>

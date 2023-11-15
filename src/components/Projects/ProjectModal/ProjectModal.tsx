@@ -7,6 +7,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import ProjectForm from "@/components/Projects/ProjectModal/ProjectForm";
+import {Button} from "@/components/ui/button";
 
 
 export default function ProjectModal() {
@@ -14,7 +15,9 @@ export default function ProjectModal() {
     return (
         <>
             <Dialog>
-                <DialogTrigger className="custom-button">Add a project</DialogTrigger>
+                <DialogTrigger asChild>
+                    <Button>Add a project</Button>
+                </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Create a project</DialogTitle>

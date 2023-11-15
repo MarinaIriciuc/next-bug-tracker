@@ -1,33 +1,31 @@
 "use client"
-import {useEffect, useState} from "react";
-import {BsSun} from "react-icons/bs";
-import {FaMoon} from "react-icons/fa";
 
-export default function ThemeSwitcher(){
-    const { setTheme } = useTheme()
-    const [currentTheme, setCurrentTheme] = useState('')
+import * as React from "react"
+import {Moon, Sun} from "lucide-react"
+import {useTheme} from "next-themes"
+import {GrSystem} from "react-icons/gr";
 
-    useEffect(() => {
-        setCurrentTheme(localStorage.getItem('theme'))
-    }, [])
 
-    function changeTheme(theme) {
-        setTheme(theme)
-        setCurrentTheme(theme)
-    }
-    return(
+export function ThemeSwitcher() {
+
+    const {setTheme} = useTheme()
+
+
+    return (
         <>
-            {currentTheme !== "light" ?
-                <div onClick={() => changeTheme('light')} className="mt-auto mb-3 items-center justify-center flex gap-2 cursor-pointer">
-                    <BsSun size={25}/>
-                    <span className="sm:text-[14px] text-[10px] tracking-[2px] sm:font-medium font-bold">Light</span>
-                </div>
-                :
-                <div onClick={() => changeTheme('dark')} className="mt-auto mb-3 items-center justify-center flex flex-col cursor-pointer">
-                    <FaMoon size={25}/>
-                    <span className="sm:text-[14px] text-[10px] tracking-[2px] sm:font-medium font-bold">Dark</span>
-                </div>
-            }
+            <p className="text-gray-400 px-5 mt-10 font-medium uppercase text-[13px]">Choose theme</p>
+            <div onClick={() => setTheme("light")} className="flex items-center gap-3 sidebar-item px-5">
+                <Sun size={18}/>
+                <p className="sidebar-title">Light</p>
+            </div>
+            <div onClick={() => setTheme("dark")} className="flex items-center gap-3 sidebar-item px-5">
+                <Moon size={18}/>
+                <p className="sidebar-title">Dark</p>
+            </div>
+            <div onClick={() => setTheme("dark")} className="flex items-center gap-3 sidebar-item px-5">
+                <GrSystem size={15}/>
+                <p className="sidebar-title">System</p>
+            </div>
         </>
     )
 }

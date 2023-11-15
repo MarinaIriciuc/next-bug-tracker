@@ -106,3 +106,15 @@ export async function searchProject(term: string = "") {
         }
     })
 }
+
+export async function sortProject(sortBy: any){
+    const session = await getServerSession(authOptions);
+    return prisma.project.findMany({
+        where: {
+            userId: session?.user.id
+        },
+        orderBy: {
+            createdAt: sortBy
+        }
+    });
+}
