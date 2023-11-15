@@ -10,7 +10,7 @@ export default function Navbar({setOpen, open}: any) {
                     <Logo/>
                 </div>
                 <button onClick={() => setOpen(!open)} className="ms-auto bg-primary-gray p-1 me-2">
-                    <AiOutlineMenu color="white" size={30}/>
+                    <AiOutlineMenu color="black" size={30}/>
                 </button>
             </div>
         </>
