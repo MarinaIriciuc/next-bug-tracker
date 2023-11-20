@@ -1,10 +1,10 @@
-import {NextAuthOptions} from "next-auth";
+import {NextAuthOptions, User} from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import prisma from "@/lib/prisma";
 import {PrismaAdapter} from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import {hash, compare} from 'bcrypt';
 export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
@@ -16,51 +16,100 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
         CredentialsProvider({
-            name: "loginProvider",
+            id: "loginProvider",
             credentials: {
                 email: {
-                    label: "Email"
+                    label: "Email",
+                    type: "email"
                 },
                 password: {
-                    label: "Password"
+                    label: "Password",
+                    type: "password"
                 }
             },
             async authorize(credentials) {
 
+                const user = await prisma.user.findFirst({
+                    where: {
+                        email: credentials?.email,
+                    }
+                })
 
-                // Cauta user in baza de date si returneaza-l daca l-a gasit, in caz contrar null
-                // CAUTA-L IN FUNCTIE DE EMAIL SI PASSWORD din param credentials
+                if(!user) return null
 
-                return null // null sau utilizatorul
+                const samePass = await compare(credentials?.password!, user?.password!)
+
+                if(!samePass) return null
+
+                return user as User
             }
         }),
         CredentialsProvider({
-            name: "registerProvider",
+            id: "registerProvider",
             credentials: {
+                firstName: {
+                    label: "First Name",
+                    type: "text"
+                },
+                lastName: {
+                    label: "Last Name",
+                    type: "text"
+                },
                 email: {
-                    label: "Email"
+                    label: "Email",
+                    type: "email"
                 },
                 username: {
-                    label: "Username"
+                    label: "Username",
+                    type: "text"
                 },
                 password: {
-                    label: "Password"
+                    label: "Password",
+                    type: "password"
                 },
                 password_confirmation: {
-                    label: "Confirm Password"
+                    label: "Confirm Password",
+                    type: "password"
                 }
             },
             async authorize(credentials) {
 
-                // Validezi datele
+                const {firstName, lastName, email, username, password, password_confirmation} = credentials as {
+                    firstName: string,
+                    lastName: string,
+                    email: string,
+                    username: string,
+                    password: string,
+                    password_confirmation: string
+                }
+
+                // 1. Validare
+
+                // 2. Autenticitate
+
+                const existingUser = await prisma.user.findFirst({
+                    where: {
+                        email: email
+                    }
+                })
+
+                if (existingUser) return null;
 
 
-                // Verifici daca este utilizatorul in baza de date
+                // 3. Creare
 
+                const hashedPassword = await hash(password, 10);
+                const user = await prisma.user.create({
+                    data: {
+                        firstName: firstName,
+                        lastName: lastName,
+                        username: username,
+                        email: email,
+                        password: hashedPassword,
+                    }
+                });
 
-                // Creezi noul utilizator si-l returnezi
-
-                return null // null sau utilizatorul
+                return user as User | null;
             }
         }),
     ],
@@ -69,9 +118,16 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt"
     },
     callbacks: {
-        async session({session, token}) {
-            session.user.id = token.sub as string;
+        async session({session, token, user}) {
+            session.user.id = token.sub as string
+            session.user.username = token.username as string | undefined
             return session
+        },
+        async jwt({token, user, profile}) {
+            if (user?.username) {
+                token.username = user.username
+            }
+            return token
         }
     },
     pages: {

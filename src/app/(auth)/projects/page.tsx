@@ -1,36 +1,48 @@
 import ProjectModal from "@/components/Projects/ProjectModal/ProjectModal";
 import SearchProject from "@/components/SearchProject";
 import ProjectCard from "@/components/Projects/ProjectCard/ProjectCard";
-import {searchProject, sortProject, sortProjectByLatest, sortProjectByOldest} from "@/utils/utils";
+import {getProjects, searchProject, sortProject} from "@/utils/utils";
+import ProjectSort from "@/components/Projects/ProjectSort/ProjectSort";
 import Link from "next/link";
-import ProjectSelectSort from "@/components/Projects/ProjectFilter/ProjectSelectSort";
+import PaginationButton from "@/components/PaginationButton";
+import prisma from "@/lib/prisma";
 
 
 export default async function Projects({searchParams}: {
-    searchParams: { term: string, sort: string }
+    searchParams: {
+        term: string,
+        sort: string,
+        page: number
+    }
 }) {
 
     let projects = await searchProject(searchParams.term);
+    const {sort, page} = searchParams;
 
-    const {sort} = searchParams
 
+    // let projects
     if (sort === "new") {
-        projects = await sortProject("desc")
-    } else if (sort === 'old'){
-        projects = await sortProject("asc")
+        projects = await getProjects(searchParams.page,"desc", "")
+    } else if (sort === 'old') {
+        projects = await getProjects(searchParams.page,"asc", "")
     }
+
+    // projects = await getProjects(searchParams.page)
 
 
     return (
         <>
+
             <div className="flex items-center gap-40 ">
-                <ProjectModal/>
+                <ProjectModal buttonName="Create a project" title="Create a project"/>
                 <SearchProject/>
             </div>
 
-            <div className="mt-16">
-                <ProjectSelectSort/>
-            </div>
+            {projects.length > 0 && (
+                <div className="mt-16">
+                    <ProjectSort/>
+                </div>
+            )}
 
             <div className="grid grid-cols-4 gap-x-32 mt-10 ">
                 {projects.map(function (project) {
@@ -52,7 +64,9 @@ export default async function Projects({searchParams}: {
                     </>
                 )}
             </div>
-
+            <div className="flex justify-center items-center mt-24">
+                <PaginationButton/>
+            </div>
         </>
     )
 }

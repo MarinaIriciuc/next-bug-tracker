@@ -5,6 +5,7 @@ import {NextAuthProvider} from "@/app/session-provider";
 import Header from "@/components/Header/Header";
 import {ThemeProvider} from "@/components/theme-provider";
 import React from "react";
+import {Toaster} from "@/components/ui/toaster";
 
 
 const inter = Inter({subsets: ['latin']})
@@ -35,6 +36,7 @@ export default function RootLayout({children,}: {
                     <div className="container-fluid px-[200px] mt-10">
                         {children}
                     </div>
+                    <Toaster />
                 </ThemeProvider>
             </>
         </NextAuthProvider>

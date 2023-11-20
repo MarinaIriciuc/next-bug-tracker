@@ -5,14 +5,16 @@ import SelectProjectModal from "@/components/Projects/ProjectModal/SelectProject
 import DatepickerBug from "@/components/Bugs/BugModal/DatepickerBug";
 import {createTask} from "@/utils/utils";
 import {useParams} from "next/navigation";
+import {ToastAction} from "@/components/ui/toast";
+import {useToast} from "@/components/ui/use-toast";
 
 
 export default function BugForm() {
 
     const [deadline, setDeadline] = useState();
     const [priority, setPriority] = useState("");
-
     const {id} = useParams();
+    const {toast} = useToast();
 
     function selectPriority(name: string) {
         setPriority(name)
@@ -20,14 +22,20 @@ export default function BugForm() {
 
     async function addTask(event: any) {
         event.preventDefault();
-
         const data = {
             description: event.target.elements.description.value,
             deadline: String(deadline),
             priority: priority,
+            projectId: id
         }
         try {
             await createTask(data)
+            toast({
+                title: "Task added successfully",
+                action: (
+                    <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+                ),
+            })
         } catch (e) {
             console.log(e)
         }

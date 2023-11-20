@@ -1,3 +1,4 @@
+"use client"
 import {
     Dialog,
     DialogContent,
@@ -8,21 +9,33 @@ import {
 } from "@/components/ui/dialog"
 import ProjectForm from "@/components/Projects/ProjectModal/ProjectForm";
 import {Button} from "@/components/ui/button";
+import {Project} from "@prisma/client";
+import {useAtom} from "jotai";
+import {currentProjectAtom, modalOpenedAtom} from "@/store";
 
 
-export default function ProjectModal() {
-    
+export default function ProjectModal({buttonName, title}: {
+    buttonName: any,
+    title: any,
+}) {
+
+    const [open, setOpen] = useAtom(modalOpenedAtom)
+    const [currentProject, setCurrentProject] = useAtom(currentProjectAtom)
+
     return (
         <>
-            <Dialog>
+            <Dialog open={open} onOpenChange={(status) => {
+                setOpen(status)
+                setCurrentProject(null)
+            }}>
                 <DialogTrigger asChild>
-                    <Button>Add a project</Button>
+                    <Button>{buttonName}</Button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Create a project</DialogTitle>
+                        <DialogTitle>{title}</DialogTitle>
                         <DialogDescription>
-                            <ProjectForm/>
+                            <ProjectForm project={currentProject}/>
                         </DialogDescription>
                     </DialogHeader>
                 </DialogContent>

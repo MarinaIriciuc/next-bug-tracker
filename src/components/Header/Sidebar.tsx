@@ -4,10 +4,10 @@ import {useState} from "react";
 import {AiOutlineBug} from "react-icons/ai";
 import {GoProjectSymlink} from "react-icons/go";
 import Logo from "@/components/Logo";
-// import ThemeSwitcher from "@/components/ThemeSwitcher";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import {ThemeSwitcher} from "@/components/ThemeSwitcher";
+import {Settings} from "lucide-react";
 
 export default function Sidebar({open}: { open: boolean }) {
 
@@ -36,6 +36,10 @@ export default function Sidebar({open}: { open: boolean }) {
                 <Link href="/bugs" onClick={() => setActiveIcon("bugs")} className="sidebar-item px-5">
                     <AiOutlineBug size={21} className={activeIcon === "bugs" ? "text-primary-gray" : ""}/><p
                     className={activeIcon === "bugs" ? "text-primary-gray sidebar-title" : "sidebar-title"}>Bugs</p>
+                </Link>
+                <Link href="/settings" onClick={() => setActiveIcon("settings")} className="sidebar-item px-5">
+                    <Settings size={21} className={activeIcon === "settings" ? "text-primary-gray" : ""}/><p
+                    className={activeIcon === "bugs" ? "text-primary-gray sidebar-title" : "sidebar-title"}>Settings</p>
                 </Link>
                 <ThemeSwitcher/>
                 <LogoutButton/>

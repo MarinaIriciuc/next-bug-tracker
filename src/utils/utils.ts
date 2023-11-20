@@ -7,16 +7,24 @@ import {authOptions} from "@/utils/auth";
 import {bugSchema} from "@/schemas/BugSchema";
 
 
-export async function getProjects() {
+export async function getProjects(page: number = 1, sortBy: any, term: any) {
     const session = await getServerSession(authOptions);
-
+    if (!page) page = 0;
+    const projectsPerPage: number = 8;
     return prisma.project.findMany({
         where: {
             userId: session?.user.id
+        },
+        name: {
+            contains: term,
+        },
+        take: projectsPerPage,
+        skip: (page - 1) * projectsPerPage,
+        orderBy: {
+            createdAt: sortBy
         }
-    });
+    })
 }
-
 export async function createProject(project: ProjectSchema) {
 
     const session = await getServerSession(authOptions);
@@ -34,7 +42,27 @@ export async function createProject(project: ProjectSchema) {
     })
     revalidatePath("/projects")
 }
+export async function editProject(projectId: any, updatedProject: any) {
+    const existingProject = await prisma.project.findUnique({
+        where: {
+            id: projectId,
+        },
+    });
+    if (!existingProject) {
+        throw ("Project not found");
+    }
+    const project = await prisma.project.update({
+        where: {
+            id: projectId,
+        },
+        data: {
+            name: updatedProject.name,
+            description: updatedProject.description,
+        },
+    });
 
+    revalidatePath("/projects")
+}
 export async function deleteProject(id: string) {
 
     const session = await getServerSession(authOptions);
@@ -49,7 +77,6 @@ export async function deleteProject(id: string) {
     revalidatePath("/")
 
 }
-
 export async function createTask(task: any) {
     const session = await getServerSession(authOptions);
     const result = bugSchema.safeParse(task)
@@ -57,7 +84,6 @@ export async function createTask(task: any) {
     if (!result.success) {
         throw result.error;
     }
-
     const userProjects = await prisma.user.findUnique({
         where: {
             id: session?.user.id,
@@ -75,11 +101,10 @@ export async function createTask(task: any) {
             description: task.description,
             priority: task.priority,
             deadline: task.deadline,
-            projectId: session?.user.id,
+            projectId: task.projectId,
         }
     });
 }
-
 export async function getTasks(projectId: any) {
 
     return prisma.task.findMany({
@@ -92,7 +117,36 @@ export async function getTasks(projectId: any) {
     });
 
 }
+export async function editTask(id: any, updatedProject: any) {
+    const existingProject = await prisma.project.findUnique({
+        where: {
+            id: id,
+        },
+    });
+    if (!existingProject) {
+        throw ("Project not found");
+    }
+    const newProject = await prisma.project.update({
+        where: {
+            id: id,
+        },
+        data: {
+            name: updatedProject.name,
+            description: updatedProject.description,
+        },
+    });
+    return newProject;
+}
+export async function deleteTask(id: any) {
 
+    await prisma.task.delete({
+        where: {
+            id: id,
+        }
+    })
+
+    revalidatePath("/")
+}
 export async function searchProject(term: string = "") {
     const session = await getServerSession(authOptions);
 
@@ -106,8 +160,7 @@ export async function searchProject(term: string = "") {
         }
     })
 }
-
-export async function sortProject(sortBy: any){
+export async function sortProject(sortBy: any) {
     const session = await getServerSession(authOptions);
     return prisma.project.findMany({
         where: {
@@ -117,4 +170,21 @@ export async function sortProject(sortBy: any){
             createdAt: sortBy
         }
     });
+}
+export async function updateUserProfile(updatedData: any) {
+    const session = await getServerSession(authOptions);
+    return prisma.user.update({
+        where: {
+            id: session?.user.id
+        },
+
+        data: {
+            firstName: updatedData.firstName,
+            lastName: updatedData.lastName,
+            email: updatedData.email,
+            username: updatedData.name,
+            password: updatedData.password,
+            confirmationPassword: updatedData.confirmationPassword
+        }
+    })
 }

@@ -7,12 +7,12 @@ import {
 } from "@/components/ui/popover"
 import {CalendarDaysIcon} from "lucide-react";
 import {cn} from "@/lib/utils"
-import React, {useState} from "react";
-import {format} from "url";
+import React from "react";
 
 export default function DatepickerBug({deadline, setDeadline}: any) {
 
     const formatDate = new Date(deadline).toLocaleDateString();
+
 
     return (
         <>

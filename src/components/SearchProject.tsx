@@ -11,8 +11,6 @@ export default function SearchProject() {
     }
 
 
-
-
     return (
         <>
             <Input onChange={findProjects} className="w-96 border-b-gray-300 border-t-0 shadow"
