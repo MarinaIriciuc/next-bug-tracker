@@ -11,7 +11,7 @@ import {Project} from "@prisma/client";
 import {useAtom} from "jotai";
 import {modalOpenedAtom} from "@/store";
 
-export default function ProjectForm({project}: {project: Project | null}) {
+export default function ProjectForm({project}: { project: Project | null }) {
 
     const {toast} = useToast()
 
@@ -24,7 +24,7 @@ export default function ProjectForm({project}: {project: Project | null}) {
             description: event.target.elements.description.value,
         }
         try {
-            if(!project) {
+            if (!project) {
                 await createProject(data);
 
             } else {
@@ -50,7 +50,7 @@ export default function ProjectForm({project}: {project: Project | null}) {
             <form onSubmit={addOrEditProject}>
                 <div>
                     <p className="text-black font-medium mt-5">Title</p>
-                    <Input className="mt-2" placeholder={project?.name ?? "Add title"}  name="name"/>
+                    <Input className="mt-2" placeholder={project?.name ?? "Add title"} name="name"/>
                 </div>
                 <div>
                     <p className="text-black font-medium mt-5">Description</p>

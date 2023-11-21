@@ -2,8 +2,10 @@
 import {Button} from "@/components/ui/button";
 import React from "react";
 import {updateUserProfile} from "@/utils/utils";
+import {toast} from "@/components/ui/use-toast";
 
 export default function SettingsForm() {
+
 
     async function updateProfile(event: any) {
         event.preventDefault();
@@ -13,9 +15,12 @@ export default function SettingsForm() {
             email: event.target.elements.email.value,
             username: event.target.elements.email.value,
             password: event.target.elements.password.value,
-            confirmationPassword: event.target.elements.confirmationPassword.value,
         }
         await updateUserProfile(userInfo);
+        toast({
+            title: "Update successful",
+            description: "The information has been updated successfully",
+        })
     }
 
 
@@ -79,15 +84,6 @@ export default function SettingsForm() {
                                        className="w-full p-3 mt-3 bg-gray-100 border rounded border-gray-200 focus:outline-none focus:border-gray-600 text-sm font-medium leading-none text-gray-800"
                                        name="password"
                                        placeholder="*******"/>
-                            </div>
-                            <div className="md:w-64 md:ml-12 md:mt-0 mt-4">
-                                <label className="text-sm leading-none text-gray-800">Password
-                                    confirmation</label>
-                                <input type="password"
-                                       className="w-full p-3 mt-3 bg-gray-100 border rounded border-gray-200 focus:outline-none focus:border-gray-600 text-sm font-medium leading-none text-gray-800"
-                                       name="confirmationPassword"
-                                       placeholder="*******"
-                                />
                             </div>
                         </div>
                     </div>

@@ -3,24 +3,27 @@ import {Textarea} from "@/components/ui/textarea";
 import React, {useState} from "react";
 import SelectProjectModal from "@/components/Projects/ProjectModal/SelectProjectModal";
 import DatepickerBug from "@/components/Bugs/BugModal/DatepickerBug";
-import {createTask} from "@/utils/utils";
+import {createProject, createTask, editProject, editTask} from "@/utils/utils";
 import {useParams} from "next/navigation";
 import {ToastAction} from "@/components/ui/toast";
-import {useToast} from "@/components/ui/use-toast";
+import {toast, useToast} from "@/components/ui/use-toast";
+import {useAtom} from "jotai";
+import {modalOpenedAtom} from "@/store";
 
 
-export default function BugForm() {
+export default function BugForm({task}: { task: any }) {
 
     const [deadline, setDeadline] = useState();
     const [priority, setPriority] = useState("");
     const {id} = useParams();
-    const {toast} = useToast();
+    const [openModal, setOpenModal] = useAtom(modalOpenedAtom)
+
 
     function selectPriority(name: string) {
         setPriority(name)
     }
 
-    async function addTask(event: any) {
+    async function createOrEditTask(event: any) {
         event.preventDefault();
         const data = {
             description: event.target.elements.description.value,
@@ -28,10 +31,17 @@ export default function BugForm() {
             priority: priority,
             projectId: id
         }
+
         try {
-            await createTask(data)
+            if (!task) {
+                await createTask(data)
+            } else {
+                await editTask(task.id, data)
+            }
+            setOpenModal(false)
             toast({
-                title: "Task added successfully",
+                title: `Project ${task ? "edited" : "created"} successfully`,
+                description: data.description,
                 action: (
                     <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
                 ),
@@ -43,7 +53,7 @@ export default function BugForm() {
 
 
     return (
-        <form onSubmit={addTask}>
+        <form onSubmit={createOrEditTask}>
             <div>
                 <p className="text-black font-medium mt-5">Description</p>
                 <Textarea className="mt-2" placeholder="Add a description" name="description"/>
@@ -52,13 +62,13 @@ export default function BugForm() {
                 <p className="text-black font-medium mt-3">Priority</p>
                 <div className="flex text-white mt-4 gap-3">
                     <button onClick={() => selectPriority("low")} type="button"
-                            className="font-medium bg-red-400 p-1 rounded">Low priority
+                            className="font-medium bg-green-500  p-1 rounded">Low priority
                     </button>
                     <button onClick={() => selectPriority("medium")} type="button"
                             className="font-medium bg-yellow-400 p-1 rounded">Medium priority
                     </button>
                     <button onClick={() => selectPriority("high")} type="button"
-                            className="font-medium bg-green-500 p-1 rounded">High priority
+                            className="font-medium bg-red-400 p-1 rounded">High priority
                     </button>
                 </div>
             </div>
@@ -77,3 +87,6 @@ export default function BugForm() {
     )
 
 }
+
+
+

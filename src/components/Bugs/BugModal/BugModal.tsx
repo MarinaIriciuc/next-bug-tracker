@@ -1,3 +1,4 @@
+"use client"
 import {
     Dialog,
     DialogContent,
@@ -8,18 +9,27 @@ import {
 } from "@/components/ui/dialog";
 import BugForm from "@/components/Bugs/BugModal/BugForm";
 import {Button} from "@/components/ui/button";
+import {useAtom} from "jotai";
+import {currentProjectAtom, currentTaskAtom, modalOpenedAtom} from "@/store";
 
-export default function BugModal() {
+export default function BugModal({buttonName, title}: { buttonName: any, title: any }) {
+
+    const [currentTask, setCurrentTask] = useAtom(currentTaskAtom)
+    const [openModal, setOpenModal] = useAtom(modalOpenedAtom)
+
     return (
-        <Dialog>
+        <Dialog open={openModal} onOpenChange={(status) => {
+            setOpenModal(status)
+            setCurrentTask(null)
+        }}>
             <DialogTrigger asChild>
-                <Button>Add bug</Button>
+                <Button>{buttonName}</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Add a bug</DialogTitle>
+                    <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>
-                        <BugForm/>
+                        <BugForm task={currentTask}/>
                     </DialogDescription>
                 </DialogHeader>
             </DialogContent>

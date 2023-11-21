@@ -25,6 +25,7 @@ export async function getProjects(page: number = 1, sortBy: any, term: any) {
         }
     })
 }
+
 export async function createProject(project: ProjectSchema) {
 
     const session = await getServerSession(authOptions);
@@ -42,6 +43,7 @@ export async function createProject(project: ProjectSchema) {
     })
     revalidatePath("/projects")
 }
+
 export async function editProject(projectId: any, updatedProject: any) {
     const existingProject = await prisma.project.findUnique({
         where: {
@@ -63,6 +65,7 @@ export async function editProject(projectId: any, updatedProject: any) {
 
     revalidatePath("/projects")
 }
+
 export async function deleteProject(id: string) {
 
     const session = await getServerSession(authOptions);
@@ -77,6 +80,7 @@ export async function deleteProject(id: string) {
     revalidatePath("/")
 
 }
+
 export async function createTask(task: any) {
     const session = await getServerSession(authOptions);
     const result = bugSchema.safeParse(task)
@@ -96,7 +100,7 @@ export async function createTask(task: any) {
             },
         },
     });
-    await prisma.task.create({
+    const createdTask = prisma.task.create({
         data: {
             description: task.description,
             priority: task.priority,
@@ -104,7 +108,10 @@ export async function createTask(task: any) {
             projectId: task.projectId,
         }
     });
+    revalidatePath("/projects")
+    return createdTask;
 }
+
 export async function getTasks(projectId: any) {
 
     return prisma.task.findMany({
@@ -117,26 +124,30 @@ export async function getTasks(projectId: any) {
     });
 
 }
-export async function editTask(id: any, updatedProject: any) {
-    const existingProject = await prisma.project.findUnique({
+
+export async function editTask(taskId: any, updatedTask: any) {
+    const existingTask = await prisma.task.findUnique({
         where: {
-            id: id,
+            id: taskId,
         },
     });
-    if (!existingProject) {
-        throw ("Project not found");
+    if (!existingTask) {
+        throw ("Task not found");
     }
-    const newProject = await prisma.project.update({
+    const project = await prisma.task.update({
         where: {
-            id: id,
+            id: taskId,
         },
         data: {
-            name: updatedProject.name,
-            description: updatedProject.description,
+            description: updatedTask.description,
+            priority: updatedTask.priority,
+            deadline: updatedTask.deadline,
         },
     });
-    return newProject;
+
+    revalidatePath("/projects")
 }
+
 export async function deleteTask(id: any) {
 
     await prisma.task.delete({
@@ -147,6 +158,7 @@ export async function deleteTask(id: any) {
 
     revalidatePath("/")
 }
+
 export async function searchProject(term: string = "") {
     const session = await getServerSession(authOptions);
 
@@ -160,6 +172,7 @@ export async function searchProject(term: string = "") {
         }
     })
 }
+
 export async function sortProject(sortBy: any) {
     const session = await getServerSession(authOptions);
     return prisma.project.findMany({
@@ -171,20 +184,19 @@ export async function sortProject(sortBy: any) {
         }
     });
 }
+
 export async function updateUserProfile(updatedData: any) {
     const session = await getServerSession(authOptions);
     return prisma.user.update({
         where: {
             id: session?.user.id
         },
-
         data: {
             firstName: updatedData.firstName,
             lastName: updatedData.lastName,
             email: updatedData.email,
             username: updatedData.name,
             password: updatedData.password,
-            confirmationPassword: updatedData.confirmationPassword
         }
     })
 }

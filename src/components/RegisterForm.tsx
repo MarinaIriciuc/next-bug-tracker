@@ -9,12 +9,11 @@ export default function RegisterForm() {
             firstName: event.target.elements.firstName.value,
             lastName: event.target.elements.lastName.value,
             username: event.target.elements.username.value,
-            email:  event.target.elements.email.value,
+            email: event.target.elements.email.value,
             password: event.target.elements.password.value,
-            password_confirmation: event.target.elements.confirmPassword.value,
+            // password_confirmation: event.target.elements.confirmPassword.value,
         });
     }
-
 
 
     return (

@@ -43,3 +43,4 @@ export default function ProjectModal({buttonName, title}: {
         </>
     )
 }
+

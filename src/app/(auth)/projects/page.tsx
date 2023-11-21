@@ -6,6 +6,7 @@ import ProjectSort from "@/components/Projects/ProjectSort/ProjectSort";
 import Link from "next/link";
 import PaginationButton from "@/components/PaginationButton";
 import prisma from "@/lib/prisma";
+import PopoverBugCard from "@/components/Bugs/BugCard/PopoverBugCard";
 
 
 export default async function Projects({searchParams}: {
@@ -19,12 +20,10 @@ export default async function Projects({searchParams}: {
     let projects = await searchProject(searchParams.term);
     const {sort, page} = searchParams;
 
-
-    // let projects
     if (sort === "new") {
-        projects = await getProjects(searchParams.page,"desc", "")
+        projects = await getProjects(searchParams.page, "desc", "")
     } else if (sort === 'old') {
-        projects = await getProjects(searchParams.page,"asc", "")
+        projects = await getProjects(searchParams.page, "asc", "")
     }
 
     // projects = await getProjects(searchParams.page)
@@ -43,6 +42,7 @@ export default async function Projects({searchParams}: {
                     <ProjectSort/>
                 </div>
             )}
+
 
             <div className="grid grid-cols-4 gap-x-32 mt-10 ">
                 {projects.map(function (project) {

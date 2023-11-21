@@ -22,7 +22,7 @@ export default function ProjectCard({project}: { project: any }) {
                 </div>
                 <div className="card-footer bg-gray-950 rounded-b-md pb-5 ps-5 pe-5 flex justify-between">
                     <UserAvatar/>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 relative z-20">
                         <div className="cursor-pointer" onClick={() => {
                             setOpenModal(true)
                             setCurrentProject(project)
