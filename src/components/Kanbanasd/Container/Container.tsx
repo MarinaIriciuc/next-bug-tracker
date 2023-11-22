@@ -2,15 +2,15 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
-import {Button} from "@/components/Kanban/Button/Button";
+import {Button} from "@/components/Kanbanasd/Button/Button";
 
-const Container = ({
+export default function Container ({
                        id,
                        children,
                        title,
                        description,
                        onAddItem,
-                   }: any) => {
+                   }: any) {
     const {
         attributes,
         setNodeRef,
@@ -58,4 +58,4 @@ const Container = ({
     );
 };
 
-export default Container;
+

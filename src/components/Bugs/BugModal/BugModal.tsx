@@ -10,12 +10,16 @@ import {
 import BugForm from "@/components/Bugs/BugModal/BugForm";
 import {Button} from "@/components/ui/button";
 import {useAtom} from "jotai";
-import {currentProjectAtom, currentTaskAtom, modalOpenedAtom} from "@/store";
+import {currentTaskAtom, modalOpenedAtom} from "@/store";
 
-export default function BugModal({buttonName, title}: { buttonName: any, title: any }) {
+
+export default function BugModal({buttonName, title
+                                     }: { buttonName: any, title: any, setShowModal:any, showModal: any }) {
 
     const [currentTask, setCurrentTask] = useAtom(currentTaskAtom)
     const [openModal, setOpenModal] = useAtom(modalOpenedAtom)
+
+
 
     return (
         <Dialog open={openModal} onOpenChange={(status) => {

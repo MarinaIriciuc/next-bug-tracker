@@ -10,7 +10,7 @@ type ItemsType = {
     title: string;
 };
 
-const Items = ({ id, title }: ItemsType) => {
+export default function  Items({ id, title }: ItemsType){
     const {
         attributes,
         listeners,
@@ -50,4 +50,3 @@ const Items = ({ id, title }: ItemsType) => {
     );
 };
 
-export default Items;

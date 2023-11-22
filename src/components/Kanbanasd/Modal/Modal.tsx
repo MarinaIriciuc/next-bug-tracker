@@ -5,9 +5,6 @@ import FocusTrap from 'focus-trap-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import clsx from 'clsx';
 
-// Types
-// import ModalProps from './modal.type';
-
 export default function Modal({
                                   children,
                                   showModal,

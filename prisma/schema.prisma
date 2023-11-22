@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ColumnEnum {
+  todo
+  in_progress
+  done
+}
+
 model Project {
   id          String   @id @default(cuid())
   name        String
@@ -24,15 +30,16 @@ model Project {
 }
 
 model Task {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   description String?
-  status      String   @default("in progress")
+  status      String     @default("in progress")
   priority    String
   deadline    String
   projectId   String
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  columnId    ColumnEnum @default(todo)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   // assignedTo   User?    @relation("TaskAssignee", fields: [assignedToId], references: [id])
   // assignedToId Int?
