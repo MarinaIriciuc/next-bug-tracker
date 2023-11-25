@@ -18,8 +18,7 @@ export default function BugCard({task}: { task: any }) {
 
     return (
         <>
-            <div
-                className="card mb-5 w-80 rounded-md px-4 py-2 border border-gray-200 shadow-2xl bg-gray-100 hover:bg-gray-200 hover:border-gray-200 transition">
+            <div className="card mb-5 w-80 rounded-md px-4 py-2 border border-gray-200 shadow-2xl bg-gray-100 hover:bg-gray-200 hover:border-gray-200 transition">
                 <div className="card-header">
                     <div className="flex items-center justify-end">
                         <MdModeEdit onClick={() => {

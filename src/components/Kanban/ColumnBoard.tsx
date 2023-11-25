@@ -29,12 +29,12 @@ export default function ColumnBoard({column, tasks}: { column: IColumn, tasks: T
                 transform: CSS.Translate.toString(transform),
             }}
             className={clsx(
-                'w-full h-full p-4 bg-gray-300 rounded-xl flex flex-col gap-y-4',
+                'w-full min-w-[350px] min-h-full p-4 bg-gray-200 rounded-xl flex flex-col gap-y-4 dark:bg-[#33354A]',
             )}>
             <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-y-1">
-                    <h1 className="text-gray-800 text-xl">{column.name}</h1>
-                    <p className="text-gray-400 text-sm">description</p>
+                    <h1 className="text-gray-800 text-xl font-semibold  dark:text-gray-300">{column.name}</h1>
+                    <p className="text-gray-400 text-sm">{tasks.length} active tasks</p>
                 </div>
             </div>
 

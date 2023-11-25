@@ -10,7 +10,7 @@ export default function SelectProjectModal() {
     return (
         <>
             <Select>
-                <SelectTrigger className="w-[180px] p-0 mt-1">
+                <SelectTrigger className="w-[180px] p-0 mt-1 dark:bg-[#33354A] dark:text-gray-300">
                     <SelectValue placeholder="Choose a member"/>
                 </SelectTrigger>
                 <SelectContent>

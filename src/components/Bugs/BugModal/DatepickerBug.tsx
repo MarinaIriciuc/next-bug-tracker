@@ -9,7 +9,7 @@ import {CalendarDaysIcon} from "lucide-react";
 import {cn} from "@/lib/utils"
 import React from "react";
 
-export default function DatepickerBug({deadline, setDeadline}: any) {
+export default function DatepickerBug({deadline, setDeadline, setFormData}: any) {
 
     const formatDate = new Date(deadline).toLocaleDateString();
 
@@ -20,9 +20,11 @@ export default function DatepickerBug({deadline, setDeadline}: any) {
                 <PopoverTrigger asChild>
                     <Button
                         variant={"outline"}
-                        className={cn("w-[280px] justify-start text-left font-normal", !deadline && "text-muted-foreground")}
+                        className={cn("w-[280px] justify-start text-left font-normal dark:bg-[#33354A] dark:text-gray-300", !deadline && "text-muted-foreground")}
                     >
-                        <CalendarDaysIcon className="mr-2 h-4 w-4"/>
+                        <CalendarDaysIcon
+                            onChange={(e) => setFormData(prevState => ({...prevState, deadline: e.target.value}))}
+                            className="mr-2 h-4 w-4"/>
                         {deadline ? formatDate : <span>Pick a date</span>}
                     </Button>
                 </PopoverTrigger>

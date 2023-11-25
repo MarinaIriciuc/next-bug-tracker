@@ -27,11 +27,12 @@ export default function ProjectModal({buttonName, title}: {
             <Dialog open={open} onOpenChange={(status) => {
                 setOpen(status)
                 setCurrentProject(null)
+
             }}>
                 <DialogTrigger asChild>
-                    <Button>{buttonName}</Button>
+                    <Button className="dark:text-gray-300 dark:border-0 dark:bg-[#2B2C37]">{buttonName}</Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="dark:bg-[#20212C]">
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
                         <DialogDescription>

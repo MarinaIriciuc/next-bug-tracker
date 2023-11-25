@@ -5,7 +5,7 @@ import {projectSchema, ProjectSchema} from "@/schemas/ProjectSchema";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/utils/auth";
 import {bugSchema} from "@/schemas/BugSchema";
-
+import {settingSchema} from "@/schemas/SettingSchema";
 
 export async function getProjects(page: number = 1, sortBy: any, term: any) {
     const session = await getServerSession(authOptions);
@@ -30,7 +30,6 @@ export async function createProject(project: ProjectSchema) {
 
     const session = await getServerSession(authOptions);
     const result = projectSchema.safeParse(project)
-
     if (!result.success) {
         throw result.error;
     }
@@ -41,7 +40,8 @@ export async function createProject(project: ProjectSchema) {
             userId: session?.user.id
         }
     })
-    revalidatePath("/projects")
+    revalidatePath("/projects");
+
 }
 
 export async function editProject(projectId: any, updatedProject: any) {
@@ -52,6 +52,10 @@ export async function editProject(projectId: any, updatedProject: any) {
     });
     if (!existingProject) {
         throw ("Project not found");
+    }
+    const result = projectSchema.safeParse(updatedProject)
+    if (!result.success) {
+        throw result.error;
     }
     const project = await prisma.project.update({
         where: {
@@ -65,7 +69,6 @@ export async function editProject(projectId: any, updatedProject: any) {
 
     revalidatePath("/projects")
 }
-
 export async function deleteProject(id: string) {
 
     const session = await getServerSession(authOptions);
@@ -80,14 +83,13 @@ export async function deleteProject(id: string) {
     revalidatePath("/")
 
 }
-
 export async function createTask(task: any) {
     const session = await getServerSession(authOptions);
     const result = bugSchema.safeParse(task)
-
     if (!result.success) {
-        throw result.error;
+        throw result.error
     }
+
     const userProjects = await prisma.user.findUnique({
         where: {
             id: session?.user.id,
@@ -102,6 +104,7 @@ export async function createTask(task: any) {
     });
     const createdTask = prisma.task.create({
         data: {
+            title: task.title,
             description: task.description,
             priority: task.priority,
             deadline: task.deadline,
@@ -111,7 +114,6 @@ export async function createTask(task: any) {
     revalidatePath("/projects")
     return createdTask;
 }
-
 export async function getTasks(projectId: any) {
 
     return prisma.task.findMany({
@@ -124,7 +126,6 @@ export async function getTasks(projectId: any) {
     });
 
 }
-
 export async function editTask(taskId: any, updatedTask: any) {
     const existingTask = await prisma.task.findUnique({
         where: {
@@ -134,11 +135,16 @@ export async function editTask(taskId: any, updatedTask: any) {
     if (!existingTask) {
         throw ("Task not found");
     }
+    const result = bugSchema.safeParse(updatedTask)
+    if (!result.success) {
+        throw result.error
+    }
     const project = await prisma.task.update({
         where: {
             id: taskId,
         },
         data: {
+            title: updatedTask.title,
             description: updatedTask.description,
             priority: updatedTask.priority,
             deadline: updatedTask.deadline,
@@ -147,7 +153,6 @@ export async function editTask(taskId: any, updatedTask: any) {
 
     revalidatePath("/projects")
 }
-
 export async function deleteTask(id: any) {
 
     await prisma.task.delete({
@@ -158,7 +163,6 @@ export async function deleteTask(id: any) {
 
     revalidatePath("/")
 }
-
 export async function searchProject(term: string = "") {
     const session = await getServerSession(authOptions);
 
@@ -172,7 +176,6 @@ export async function searchProject(term: string = "") {
         }
     })
 }
-
 export async function sortProject(sortBy: any) {
     const session = await getServerSession(authOptions);
     return prisma.project.findMany({
@@ -184,9 +187,12 @@ export async function sortProject(sortBy: any) {
         }
     });
 }
-
 export async function updateUserProfile(updatedData: any) {
     const session = await getServerSession(authOptions);
+    const result = settingSchema.safeParse(updatedData)
+    if (!result.success) {
+        throw result.error
+    }
     return prisma.user.update({
         where: {
             id: session?.user.id
@@ -195,8 +201,8 @@ export async function updateUserProfile(updatedData: any) {
             firstName: updatedData.firstName,
             lastName: updatedData.lastName,
             email: updatedData.email,
-            username: updatedData.name,
-            password: updatedData.password,
+            username: updatedData.username,
+            // password: updatedData.password,
         }
     })
 }
