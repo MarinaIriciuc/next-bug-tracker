@@ -14,8 +14,8 @@ export default function SelectProjectModal() {
                     <SelectValue placeholder="Choose a member"/>
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="dark">Iriciuc Marina</SelectItem>
-                    <SelectItem value="system">Terinte Adrian</SelectItem>
+                    <SelectItem value="dark">X</SelectItem>
+                    <SelectItem value="system">Y</SelectItem>
                 </SelectContent>
             </Select>
         </>

@@ -16,8 +16,8 @@ import {currentTaskAtom, modalOpenedAtom} from "@/store";
 export default function BugModal({buttonName, title}: {
   buttonName: any,
   title: any,
-  setShowModal: any,
-  showModal: any
+  setShowModal?: any,
+  showModal?: any
 }) {
 
   const [currentTask, setCurrentTask] = useAtom(currentTaskAtom)

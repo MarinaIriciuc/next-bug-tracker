@@ -34,7 +34,8 @@ export default function BugForm({task}: { task: any }) {
   function selectPriority(name: string) {
     setPriority(name)
   }
-  function validateTaskForm(){
+
+  function validateTaskForm() {
     if (formData.title.length < 10 || formData.title.length > 30) {
       setErrorMessage(prevState => ({
         ...prevState,
@@ -54,6 +55,7 @@ export default function BugForm({task}: { task: any }) {
       setErrorMessage(prevState => ({...prevState, deadline: "The deadline field cannot be empty"}));
     }
   }
+
   async function createOrEditTask(event: any) {
     event.preventDefault();
     const data = {
@@ -93,21 +95,22 @@ export default function BugForm({task}: { task: any }) {
   return (
     <form onSubmit={createOrEditTask}>
       <div>
-        <p className="text-black font-medium mt-5 dark:text-gray-300">Title</p>
+        <p className="text-black font-medium mt-5 dark:text-gray-300 text-start flex ">Title</p>
         <Input
           onChange={(e) => setFormData(prevState => ({...prevState, title: e.target.value}))}
           className="mt-2 dark:bg-[#33354A] dark:text-gray-300" placeholder="Add a title" name="title"/>
       </div>
       <p className="error-message">{errorMessage.title}</p>
       <div>
-        <p className="text-black font-medium mt-5 dark:text-gray-300">Description</p>
+        <p className="text-black font-medium mt-5 dark:text-gray-300 text-start">Description</p>
         <Textarea
           onChange={(e) => setFormData(prevState => ({...prevState, description: e.target.value}))}
-          className="mt-2 dark:bg-[#33354A] dark:text-gray-300 overflow-auto" placeholder="Add a description" name="description"/>
+          className="mt-2 dark:bg-[#33354A] dark:text-gray-300 overflow-auto" placeholder="Add a description"
+          name="description"/>
       </div>
       <p className="error-message mt-2">{errorMessage.description}</p>
       <div>
-        <p className="text-black font-medium mt-3 dark:text-gray-300">Priority</p>
+        <p className="text-black font-medium mt-3 dark:text-gray-300 text-start">Priority</p>
         <div className="flex text-white mt-4 gap-3">
           <button onClick={() => selectPriority("low")} type="button"
                   className={`${priority === "low" ? "animate-bounce" : ""} font-medium bg-green-500 p-1 rounded`}>
@@ -125,19 +128,18 @@ export default function BugForm({task}: { task: any }) {
       </div>
       <p className="error-message mt-3">{errorMessage.priority}</p>
       <div className="mt-8 flex justify-between">
+        {/*<div>*/}
+        {/*  <p className="text-black font-medium mt-5 dark:text-gray-300 text-start">Members</p>*/}
+        {/*  <SelectProjectModal/>*/}
+        {/*</div>*/}
         <div>
-          <p className="text-black font-medium mt-5 dark:text-gray-300">Members</p>
-          <SelectProjectModal/>
-        </div>
-        <p className="error-message">{errorMessage.deadline}</p>
-        <div>
-          <p className="text-black font-medium mt-5 dark:text-gray-300">Due date</p>
-          <DatepickerBug
-            deadline={deadline} setDeadline={setDeadline} setFormData={setFormData}/>
+          <p className="text-black font-medium mt-5 dark:text-gray-300 text-start">Due date</p>
+          <DatepickerBug deadline={deadline} setDeadline={setDeadline} setFormData={setFormData}/>
         </div>
       </div>
       <p className="error-message">{errorMessage.deadline}</p>
 
+      {/*<p className="error-message">{errorMessage.deadline}</p>*/}
       <button type="submit" className="custom-button mt-10 dark:bg-[#33354A] dark:text-gray-300">Add</button>
     </form>
   )

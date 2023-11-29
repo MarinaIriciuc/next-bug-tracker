@@ -79,13 +79,13 @@ export default function SettingsForm() {
     <>
       <form onSubmit={updateProfile}>
         <div className="mt-10 flex flex-col pb-16">
-          <div className="w-full">
+          <div className="w-full md:block hidden">
             <h1 className="text-xl font-medium pr-2 leading-5 text-gray-800 dark:text-gray-300">Personal
               Information</h1>
             <p className="mt-2 text-sm leading-5 text-gray-500">Information about the section could
               go here and a brief description of how this might be used.</p>
           </div>
-          <div className="mt-8">
+          <div className="md:mt-8">
             <div className="md:flex items-center lg:mt-0">
               <div className="md:w-64">
                 <label className="text-sm leading-none text-gray-800 dark:text-white">First name
@@ -97,7 +97,7 @@ export default function SettingsForm() {
                        name="firstName" defaultValue={session.data?.user.firstName}/>
                 <p className="error-message">{errorMessage.firstName}</p>
               </div>
-              <div className="md:w-64 md:ml-12 md:mt-0">
+              <div className="md:w-64 md:ml-12 md:mt-0 mt-5">
                 <label className="text-sm leading-none text-gray-800 dark:text-white">Last
                   name
                 </label>
@@ -122,7 +122,7 @@ export default function SettingsForm() {
                 />
                 <p className="error-message">{errorMessage.email}</p>
               </div>
-              <div className="md:w-64 md:ml-12 md:mt-0">
+              <div className="md:w-64 md:ml-12 md:mt-0 mt-5">
                 <label className="text-sm leading-none text-gray-800 dark:text-white">Username</label>
                 <input type="text"
                        onChange={(e) => setFormData(prevState => ({...prevState, username: e.target.value}))}
@@ -134,29 +134,29 @@ export default function SettingsForm() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col pb-8">
-          <div className="w-full">
-            <h1 className="text-xl font-medium pr-2 leading-5 text-gray-800 dark:text-white ">
-              Security
-            </h1>
-            <p className="mt-2 text-sm leading-5 text-gray-500">Information about the section could
-              go here and a brief description of how this might be used.</p>
-          </div>
-          <div className="mt-10">
-            <div className="md:flex items-center lg:mt-0">
-              <div className="md:w-64">
-                <label className="text-sm leading-none text-gray-800 dark:text-white"
-                >Password
-                </label>
-                <input type="password"
-                       className="w-full p-3 mt-3 bg-gray-100 border rounded border-gray-200 focus:outline-none focus:border-gray-600 text-sm font-medium leading-none text-gray-800 dark:text-gray-300 dark:border-0 dark:bg-[#2B2C37]"
-                       name="password"
-                       placeholder="*******"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        {/*<div className="flex flex-col pb-8">*/}
+        {/*  <div className="w-full md:block hidden">*/}
+        {/*    <h1 className="text-xl font-medium pr-2 leading-5 text-gray-800 dark:text-white ">*/}
+        {/*      Security*/}
+        {/*    </h1>*/}
+        {/*    <p className="mt-2 text-sm leading-5 text-gray-500">Information about the section could*/}
+        {/*      go here and a brief description of how this might be used.</p>*/}
+        {/*  </div>*/}
+        {/*  <div className="md:mt-10">*/}
+        {/*    <div className="md:flex items-center lg:mt-0">*/}
+        {/*      <div className="md:w-64">*/}
+        {/*        <label className="text-sm leading-none text-gray-800 dark:text-white"*/}
+        {/*        >Password*/}
+        {/*        </label>*/}
+        {/*        <input type="password"*/}
+        {/*               className="w-full p-3 mt-3 bg-gray-100 border rounded border-gray-200 focus:outline-none focus:border-gray-600 text-sm font-medium leading-none text-gray-800 dark:text-gray-300 dark:border-0 dark:bg-[#2B2C37]"*/}
+        {/*               name="password"*/}
+        {/*               placeholder="*******"*/}
+        {/*        />*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
         <Button type="submit" className="dark:bg-[#33354A] dark:text-gray-300">
           Edit your profile
         </Button>

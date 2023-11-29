@@ -9,10 +9,9 @@ export default async function Settings() {
 
     const session = await getServerSession(authOptions)
 
-
     return (
         <>
-            <div className="px-5 flex items-center justify-center">
+            <div className="px-5 flex items-center justify-center mt-20">
                 <div className="w-full">
                     <p className="text-xl mt-5">Hello, <span
                         className="text-orange-400 font-semibold">{session?.user.name || session?.user.username}</span>

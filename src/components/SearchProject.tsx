@@ -13,7 +13,7 @@ export default function SearchProject() {
 
     return (
         <>
-            <Input onChange={findProjects} className="w-[600px] border-b-gray-300 border-t-0 shadow dark:text-gray-300 dark:border-0 dark:bg-[#2B2C37]"
+            <Input onChange={findProjects} className="lg:w-[600px] w-[300px] border-b-gray-300 border-t-0 shadow dark:text-gray-300 dark:border-0 dark:bg-[#2B2C37]"
                    placeholder="Search a project..."/>
         </>
     )

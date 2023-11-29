@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import {PrismaAdapter} from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import {hash, compare} from 'bcrypt';
+import {registerSchema} from "@/schemas/RegisterSchema";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -86,6 +87,15 @@ export const authOptions: NextAuthOptions = {
 
         // 1. Validare
 
+        const result = registerSchema.safeParse({firstName, lastName, email, username, password, password_confirmation});
+        if (!result.success){
+          throw result.error
+        }
+
+        if (password !== password_confirmation) {
+          throw new Error("Password and confirm password do not match.");
+        }
+
         // 2. Autenticitate
 
         const existingUser = await prisma.user.findFirst({
@@ -122,19 +132,11 @@ export const authOptions: NextAuthOptions = {
     async session({session, token, user}) {
       session.user.id = token.sub as string
       session.user.username = token.username as string | undefined
-      session.user.firstName = (token?.firstName as string) || undefined;
-      session.user.lastName = (token?.lastName as string) || undefined;
       return session
     },
     async jwt({token, user, profile}) {
       if (user?.username) {
         token.username = user.username
-      }
-      if (user?.firstName) {
-        token.firstName = user.firstName
-      }
-      if (user?.lastName) {
-        token.lastName = user.lastName
       }
       return token
     }

@@ -30,9 +30,8 @@ export default function TaskBoard({task}: { task: Task }) {
 
   return (
     <div ref={setNodeRef} {...attributes} style={{transition, transform: CSS.Translate.toString(transform),}}
-         className={clsx('bg-white shadow-md rounded-xl w-full border border-transparent dark:border-0 hover:border-gray-200 cursor-pointer', isDragging && 'opacity-50')}>
-      <div {...listeners}
-           className="card py-4 w-full rounded-xl px-4 border border-gray-200 bg-gray-100 dark:bg-[#20212C] hover:border-gray-200 transition dark:border-0 dark:shadow-none">
+         className={clsx(' bg-white shadow-md rounded-xl w-full border border-transparent dark:border-0 hover:border-gray-200 cursor-pointer', isDragging && 'opacity-50')}>
+      <div {...listeners} className="card py-4 w-full rounded-xl px-4 border border-gray-200 bg-gray-100 dark:bg-[#20212C] hover:border-gray-200 transition dark:border-0 dark:shadow-none">
         <div className="card-header">
           <div className="flex items-center justify-between">
             <p className={`${task.priority === "low" ? "bg-green-500" :

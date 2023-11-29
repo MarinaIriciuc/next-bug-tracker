@@ -6,7 +6,6 @@ import {BsGithub} from "react-icons/bs";
 export default function LoginButton() {
 
     const session = useSession();
-
     async function signInWithCredential(event: any) {
         event.preventDefault();
         await signIn("loginProvider", {

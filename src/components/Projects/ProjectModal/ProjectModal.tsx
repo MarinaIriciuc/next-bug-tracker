@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog"
 import ProjectForm from "@/components/Projects/ProjectModal/ProjectForm";
 import {Button} from "@/components/ui/button";
-import {Project} from "@prisma/client";
 import {useAtom} from "jotai";
 import {currentProjectAtom, modalOpenedAtom} from "@/store";
 

@@ -16,7 +16,7 @@ export default function Sidebar({open}: { open: boolean }) {
   return (
     <>
 
-      <div className={`flex flex-col w-[200px] bg-white border-r-2 border-gray-300 dark:border-gray-500 min-h-screen dark:border-0 dark:bg-[#33354A]  ${open ? 'show-sidebar' : ''} z-50 transition-all fixed top-0 lg:left-0  left-[-200px] overflow-hidden `}>
+      <div className={`flex flex-col w-[200px] bg-white border-r-2 border-gray-300 dark:border-gray-500 min-h-screen dark:border-0 dark:bg-[#33354A]  ${open ? 'show-sidebar' : ''} z-50 transition-all fixed top-0 lg:left-0 left-[-200px] overflow-hidden `}>
         <div className="flex justify-center items-center gap-4 font-bold text-center text-white border-b-2 border-gray-200 dark:border-0 mt-4">
           <Logo/>
         </div>
@@ -30,8 +30,7 @@ export default function Sidebar({open}: { open: boolean }) {
           <p className={activeIcon === "projects" ? "text-primary-gray sidebar-title " : "sidebar-title "}>Projects</p>
         </Link>
         <Link href="/settings" onClick={() => setActiveIcon("settings")} className="sidebar-item px-5 dark:hover:text-[#33354A]">
-          <Settings size={21} className={activeIcon === "settings" ? "text-primary-gray" : ""}/><p
-          className={activeIcon === "bugs" ? "text-primary-gray sidebar-title" : "sidebar-title"}>Settings</p>
+          <Settings size={21} className={activeIcon === "settings" ? "text-primary-gray" : ""}/><p className={activeIcon === "bugs" ? "text-primary-gray sidebar-title" : "sidebar-title"}>Settings</p>
         </Link>
         <ThemeSwitcher/>
         <LogoutButton/>

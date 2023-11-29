@@ -1,7 +1,7 @@
 import ProjectModal from "@/components/Projects/ProjectModal/ProjectModal";
 import SearchProject from "@/components/SearchProject";
 import ProjectCard from "@/components/Projects/ProjectCard/ProjectCard";
-import {getProjects, searchProject, sortProject} from "@/utils/utils";
+import {searchProject, sortProject} from "@/utils/utils";
 import ProjectSort from "@/components/Projects/ProjectSort/ProjectSort";
 import Link from "next/link";
 import PaginationButton from "@/components/PaginationButton";
@@ -18,29 +18,24 @@ export default async function Projects({searchParams}: {
   const {sort, page} = searchParams;
 
   if (sort === "new") {
-    projects = await getProjects(searchParams.page, "desc", "")
+    projects = await sortProject("desc")
   } else if (sort === 'old') {
-    projects = await getProjects(searchParams.page, "asc", "")
+    projects = await sortProject("asc");
   }
-
-  // projects = await getProjects(searchParams.page)
 
 
   return (
     <>
 
-      <div className="flex items-center gap-40 ">
+
+      <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-40 mt-28">
         <ProjectModal buttonName="Create a project" title="Create a project"/>
         <SearchProject/>
       </div>
-
-      {projects.length > 0 && (
-        <div className="mt-16">
-          <ProjectSort/>
-        </div>
-      )}
-
-      <div className="grid grid-cols-4 gap-x-32 mt-10 ">
+      {projects.length > 1 && (<div className="mt-16">
+        <ProjectSort/>
+      </div>)}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-x-8 mt-10">
         {projects.map(function (project) {
           return (
             <>
@@ -51,21 +46,17 @@ export default async function Projects({searchParams}: {
           )
         })}
       </div>
-
       <div className="flex justify-center items-center h-screen">
         {projects.length === 0 && (
           <>
-            <p className="font-extrabold text-[30px] dark:text-gray-300 mb-32">There is no project with the name:<span
+            <p className="font-extrabold text-[30px] dark:text-gray-300 mb-32 text-center">There is no project with the name:<span
               className="text-orange-400"> {searchParams.term} </span></p>
           </>
         )}
       </div>
-
-      {projects.length > 1 && (
-        <div className="flex justify-center items-center">
-          <PaginationButton/>
-        </div>
-      )}
+      {/*{projects.length > 1 && (<div className="flex justify-center items-center">*/}
+      {/*  <PaginationButton/>*/}
+      {/*</div>)}*/}
     </>
   )
 }
