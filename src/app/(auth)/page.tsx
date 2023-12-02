@@ -1,4 +1,4 @@
-import GenerateExcelButton from "@/components/GenerateExcelButton";
+// import GenerateExcelButton from "@/components/GenerateExcelButton";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/utils/auth";
 import prisma from "@/lib/prisma";
@@ -37,7 +37,7 @@ export default async function Home() {
       <div className="lg:px-0 px-10">
         <p className="text-[16px] tracking-wider mt-28">Download a report for managing your projects and bugs for a
           year</p>
-        <GenerateExcelButton projects={projects}/>
+        {/*<GenerateExcelButton projects={projects}/>*/}
         <div className="mt-16">
           <p className="mb-10 text-[22px] tracking-wider">Graphics about projects and bugs</p>
           <ProjectChart numberOfProjectsByLowPriority={numberOfProjectsByLowPriority}

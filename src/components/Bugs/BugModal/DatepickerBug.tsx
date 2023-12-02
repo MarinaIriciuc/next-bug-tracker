@@ -23,7 +23,7 @@ export default function DatepickerBug({deadline, setDeadline, setFormData}: any)
                         className={cn("w-[280px] justify-start text-left font-normal dark:bg-[#33354A] dark:text-gray-300", !deadline && "text-muted-foreground")}
                     >
                         <CalendarDaysIcon
-                            onChange={(e) => setFormData(prevState => ({...prevState, deadline: e.target.value}))}
+                            onChange={(e:any) => setFormData((prevState: any) => ({...prevState, deadline: e.target.value}))}
                             className="mr-2 h-4 w-4"/>
                         {deadline ? formatDate : <span>Pick a date</span>}
                     </Button>

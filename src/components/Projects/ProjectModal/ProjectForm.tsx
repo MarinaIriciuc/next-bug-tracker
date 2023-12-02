@@ -125,19 +125,19 @@ export default function ProjectForm({project}: {
             className="text-gray-400">optional</span></p>
           <Input type="file" className="mt-4"/>
         </div>
-        <CldUploadWidget uploadPreset="jiv7dagz" options={{
-          sources: ["local"],
-          multiple: false,
-          maxFiles: 1,
-        }} onUpload={(result, widget) => {
-          if (result.event !== "success") return;
-          const info = result.info as CloudinaryResult
-          setPublicId(info.public_id)
-        }}>
-          {({open}) =>
-            <button onClick={() => open()} className="custom-title">Upload image</button>
-          }
-        </CldUploadWidget>
+        {/*<CldUploadWidget uploadPreset="jiv7dagz" options={{*/}
+        {/*  sources: ["local"],*/}
+        {/*  multiple: false,*/}
+        {/*  maxFiles: 1,*/}
+        {/*}} onUpload={(result, widget) => {*/}
+        {/*  if (result.event !== "success") return;*/}
+        {/*  const info = result.info as CloudinaryResult*/}
+        {/*  setPublicId(info.public_id)*/}
+        {/*}}>*/}
+        {/*  {({open}) =>*/}
+        {/*    <button onClick={() => open()} className="custom-title">Upload image</button>*/}
+        {/*  }*/}
+        {/*</CldUploadWidget>*/}
         <button type="submit" className="custom-button mt-10 dark:bg-[#33354A] dark:text-gray-300">Save and
           Close
         </button>
