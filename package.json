@@ -57,8 +57,6 @@
     "tailwindcss-animate": "^1.0.7",
     "tw-elements": "^1.0.0",
     "uuid": "^9.0.1",
-    "write-excel-file": "^1.4.27",
-    "xlsx": "^0.18.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
