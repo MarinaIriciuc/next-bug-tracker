@@ -1,11 +1,9 @@
 "use client"
 import {Textarea} from "@/components/ui/textarea";
 import React, {useState} from "react";
-import SelectProjectModal from "@/components/Projects/ProjectModal/SelectProjectModal";
 import DatepickerBug from "@/components/Bugs/BugModal/DatepickerBug";
 import {createProject, createTask, editProject, editTask} from "@/utils/utils";
 import {useParams} from "next/navigation";
-import {ToastAction} from "@/components/ui/toast";
 import {toast, useToast} from "@/components/ui/use-toast";
 import {useAtom} from "jotai";
 import {modalOpenedAtom} from "@/store";
@@ -82,9 +80,6 @@ export default function BugForm({task}: { task: any }) {
       toast({
         title: `Project ${task ? "edited" : "created"} successfully`,
         description: data.description,
-        action: (
-          <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
-        ),
       })
     } catch (e) {
       console.log(e)

@@ -4,7 +4,6 @@ import ProjectCard from "@/components/Projects/ProjectCard/ProjectCard";
 import {searchProject, sortProject} from "@/utils/utils";
 import ProjectSort from "@/components/Projects/ProjectSort/ProjectSort";
 import Link from "next/link";
-import PaginationButton from "@/components/PaginationButton";
 
 export default async function Projects({searchParams}: {
   searchParams: {

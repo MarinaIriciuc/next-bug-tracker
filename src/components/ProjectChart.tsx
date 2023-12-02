@@ -1,36 +1,57 @@
 "use client"
-import {LineChart, PieChart, ColumnChart, BarChart, AreaChart, ScatterChart} from 'react-chartkick'
+// @ts-ignore
+import {PieChart, ColumnChart, AreaChart} from 'react-chartkick'
 import 'chartkick/chart.js'
+import * as React from "react"
 
-export default function ProjectChart({numberOfProjectsByLowPriority, numberOfProjectsByMediumPriority, numberOfProjectsByHighPriority, projectsCountPerMonth}: { numberOfProjectsByLowPriority: any, numberOfProjectsByMediumPriority: any, numberOfProjectsByHighPriority: any, projectsCountPerMonth: any }) {
+export default function ProjectChart({
+                                       numberOfProjectsByLowPriority,
+                                       numberOfProjectsByMediumPriority,
+                                       numberOfProjectsByHighPriority,
+                                       projectsCountPerMonth,
+                                       bugsCountPerMonth,
+                                       numberOfBugsToDo,
+                                       numberOfBugsInProgress,
+                                       numberOfBugsDone
+                                     }: {
+  numberOfProjectsByLowPriority: any,
+  numberOfProjectsByMediumPriority: any,
+  numberOfProjectsByHighPriority: any,
+  projectsCountPerMonth: any,
+  bugsCountPerMonth: any,
+  numberOfBugsToDo: any,
+  numberOfBugsInProgress: any,
+  numberOfBugsDone: any
+}) {
 
-    //   1. afisez nr de buguri rezolvare, in progress si to do
 
-    const projectsData = Object.entries(projectsCountPerMonth).map(([month, count]) => [month, count]);
+  const projectsData = Object.entries(projectsCountPerMonth).map(([month, count]) => [month, count]);
+  const bugsData = Object.entries(bugsCountPerMonth).map(([month, count]) => [month, count]);
 
-
-    return (
-        <>
-            <div className="flex justify-between">
-                <div>
-                    <p className="text-[14px] text-gray-700 dark:text-gray-300">Distribution of bugs by status:</p>
-                    {/*<PieChart data={[["To Do", numberOfProjectsByHighPriority], ["In progress", numberOfProjectsByMediumPriority], ["Done", numberOfProjectsByLowPriority]]}/>*/}
-                </div>
-                <div>
-                    <p className="text-[14px] text-gray-700 dark:text-gray-300">Distribution of the number of projects
-                        according to priority</p>
-                    <PieChart
-                        data={[["Low", numberOfProjectsByLowPriority], ["Medium", numberOfProjectsByMediumPriority], ["High", numberOfProjectsByHighPriority]]}/>
-                </div>
-                <div>
-                    <p className="text-[14px] text-gray-700 dark:text-gray-300">Distribution of bugs by status:</p>
-                    <PieChart data={[["To Do", 44], ["In progress", 23], ["Done", 44]]}/>
-                </div>
-            </div>
-            <div className="mt-5">
-                <ColumnChart data={projectsData}/>
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className="flex lg:flex-row flex-col justify-between lg:gap-y-0 gap-y-10">
+        <div>
+          <p className="text-[14px] text-gray-700 dark:text-gray-300">Distribution of bugs by status:</p>
+          <PieChart
+            data={[["To Do", numberOfBugsToDo], ["In progress", numberOfBugsInProgress], ["Done", numberOfBugsDone]]}/>
+        </div>
+        <div>
+          <p className="text-[14px] text-gray-700 dark:text-gray-300">Distribution of the number of projects
+            according to priority</p>
+          <PieChart
+            data={[["Low", numberOfProjectsByLowPriority], ["Medium", numberOfProjectsByMediumPriority], ["High", numberOfProjectsByHighPriority]]}/>
+        </div>
+        <div>
+          <p className="text-[14px] text-gray-700 dark:text-gray-300">Total Evolution of Bugs per month:</p>
+          <AreaChart data={bugsData}/>
+        </div>
+      </div>
+      <div className="mt-20 text-[20px] tracking-wider">
+        <p>The evolution of adding projects every month this year</p>
+        <ColumnChart data={projectsData}/>
+      </div>
+    </>
+  )
 
 }

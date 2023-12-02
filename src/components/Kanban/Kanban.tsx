@@ -9,11 +9,11 @@ import {useAtom} from "jotai";
 import {activeTaskAtom, columnsAtom} from "@/store";
 import {arrayMove, SortableContext} from "@dnd-kit/sortable";
 import ColumnBoard from "@/components/Kanban/ColumnBoard";
-import {Task} from "@prisma/client";
+import {ColumnEnum, Task} from "@prisma/client";
 import TaskBoard from "@/components/Kanban/TaskBoard";
 import {useEffect, useState} from "react";
 
-export default function Kanban({defaultTasks}: { defaultTasks: Task[] }) {
+export default function Kanban({defaultTasks, handleUpdateTaskColumn}: { defaultTasks: Task[], handleUpdateTaskColumn: (taskId: number, columnId: ColumnEnum)=>Promise<void>}) {
 
   // const sensors = useSensors(useSensor(PointerSensor));
 
@@ -25,6 +25,12 @@ export default function Kanban({defaultTasks}: { defaultTasks: Task[] }) {
   useEffect(() => {
     setTasks(defaultTasks)
   }, [defaultTasks])
+
+  useEffect(() => {
+    tasks.forEach(function (task){
+      handleUpdateTaskColumn(task.id, task.columnId)
+    })
+  }, [tasks]);
 
   function onDragStart(event: DragStartEvent) {
     const task = event.active.data.current?.task;

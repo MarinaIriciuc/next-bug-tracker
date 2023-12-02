@@ -2,15 +2,12 @@
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 import React, {useState} from "react";
-import SelectProjectModal from "@/components/Projects/ProjectModal/SelectProjectModal";
 import {createProject, editProject} from "@/utils/utils";
 import {ProjectSchema} from "@/schemas/ProjectSchema";
-import {ToastAction} from "@/components/ui/toast";
 import {useToast} from "@/components/ui/use-toast";
 import {Project} from "@prisma/client";
 import {useAtom} from "jotai";
 import {modalOpenedAtom} from "@/store";
-import {ZodError} from "zod";
 
 export default function ProjectForm({project}: {
   project: Project | null
@@ -29,7 +26,7 @@ export default function ProjectForm({project}: {
     priority: ""
   });
   const [priority, setPriority] = useState("");
-
+  const [publicId, setPublicId] = useState("");
 
   function selectPriority(name: string) {
     setPriority(name)
@@ -39,7 +36,7 @@ export default function ProjectForm({project}: {
     if (formData.name.length < 10 || formData.name.length > 30) {
       setErrorMessage(prevState => ({
         ...prevState,
-        name: "The name must have at least 10 characters and at most 30 characters"
+        name: "The name must have at least 10 characters and at most 20 characters"
       }));
     }
     if (formData.description.length < 10 || formData.description.length > 80) {
@@ -53,12 +50,14 @@ export default function ProjectForm({project}: {
     }
   }
 
+
   async function addOrEditProject(event: any) {
     event.preventDefault();
     const data: ProjectSchema = {
       name: event.target.elements.name.value,
       description: event.target.elements.description.value,
-      priority: priority
+      priority: priority,
+      image: `https://res.cloudinary.com/dc7zyyppj/image/upload/${publicId}`,
     }
     setErrorMessage({
       name: "",
@@ -76,9 +75,6 @@ export default function ProjectForm({project}: {
       toast({
         title: `Project ${project ? "edited" : "created"} successfully`,
         description: data.name,
-        action: (
-          <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
-        ),
       })
     } catch (e) {
     }
@@ -129,6 +125,19 @@ export default function ProjectForm({project}: {
             className="text-gray-400">optional</span></p>
           <Input type="file" className="mt-4"/>
         </div>
+        <CldUploadWidget uploadPreset="jiv7dagz" options={{
+          sources: ["local"],
+          multiple: false,
+          maxFiles: 1,
+        }} onUpload={(result, widget) => {
+          if (result.event !== "success") return;
+          const info = result.info as CloudinaryResult
+          setPublicId(info.public_id)
+        }}>
+          {({open}) =>
+            <button onClick={() => open()} className="custom-title">Upload image</button>
+          }
+        </CldUploadWidget>
         <button type="submit" className="custom-button mt-10 dark:bg-[#33354A] dark:text-gray-300">Save and
           Close
         </button>
