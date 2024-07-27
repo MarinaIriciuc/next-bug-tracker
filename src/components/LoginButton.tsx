@@ -22,11 +22,11 @@ export default function LoginButton() {
                 <FcGoogle size={23}/>
                 <p className="text-base font-medium ml-4 text-gray-700">Continue with Google</p>
             </button>
-            <button onClick={() => signIn("github")} aria-label="Continue with github" type="button"
-                    className="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 p-3 border rounded-lg border-gray-700 flex items-center w-full mt-4 hover:bg-gray-100">
-                <BsGithub size={23}/>
-                <p className="text-base font-medium ml-4 text-gray-700">Continue with Github</p>
-            </button>
+            {/*<button onClick={() => signIn("github")} aria-label="Continue with github" type="button"*/}
+            {/*        className="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 p-3 border rounded-lg border-gray-700 flex items-center w-full mt-4 hover:bg-gray-100">*/}
+            {/*    <BsGithub size={23}/>*/}
+            {/*    <p className="text-base font-medium ml-4 text-gray-700">Continue with Github</p>*/}
+            {/*</button>*/}
 
             <div className="w-full flex items-center justify-between py-5">
                 <hr className="w-full bg-gray-400"/>
